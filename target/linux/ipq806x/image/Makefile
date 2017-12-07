@@ -185,6 +185,22 @@ define Device/FRITZ4040
 	DEVICE_PACKAGES := kmod-usb-phy-qcom-ipq4019 ipq-wifi-fritz4040 fritz-tffs fritz-caldata u-boot-fritz4040
 endef
 
+define Device/GL-B1300
+	PROFILES += $$(DEVICE_NAME)
+	DEVICE_TITLE := GL.iNet GL-B1300
+	BOARD_NAME := gl-b1300
+	DEVICE_DTS := qcom-ipq4019-gl-b1300
+	KERNEL_LOADADDR := 0x80208000
+	KERNEL_INSTALL := 1
+	KERNEL_SIZE := 4096k
+	IMAGE_SIZE := 26624k
+	FILESYSTEMS := squashfs
+	$(call Device/FitImage)
+	IMAGES := sysupgrade.bin
+	IMAGE/sysupgrade.bin := append-kernel | pad-to $$$${KERNEL_SIZE} | append-rootfs | pad-rootfs | append-metadata
+	DEVICE_PACKAGES := kmod-usb-phy-qcom-ipq4019 ipq-wifi-gl-b1300
+endef
+
 define Device/R7500
 	$(call Device/DniImage)
 	DEVICE_DTS := qcom-ipq8064-r7500
@@ -281,6 +297,6 @@ define Device/AP-DK04.1-C1
 endef
 
 TARGET_DEVICES += AP148 AP148-legacy C2600 D7800 DB149 EA8500 FRITZ4040 R7500 \
-		  R7500v2 R7800 NBG6817 VR2600v AP-DK01.1-C1 AP-DK04.1-C1
+		  R7500v2 R7800 NBG6817 VR2600v AP-DK01.1-C1 AP-DK04.1-C1 GL-B1300
 
 $(eval $(call BuildImage))
